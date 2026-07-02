@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<h1>Company Directory</h1>
+<p class="page-intro">Participating local lumber companies. Companies don't have their own logins yet — reach out directly, or watch their listings on the specials board.</p>
+
+<div class="card-grid">
+  <% companies.forEach(c => { %>
+    <div class="card">
+      <h3><%= c.name %></h3>
+      <div class="meta"><%= c.location %></div>
+      <div class="meta"><%= c.phone %> · <%= c.email %></div>
+      <div class="card-footer">
+        <span><%= c.activeListingCount %> active listing<%= c.activeListingCount === 1 ? '' : 's' %></span>
+        <a href="/?company=<%= c.id %>">View listings →</a>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<%- include('partials/footer') %>

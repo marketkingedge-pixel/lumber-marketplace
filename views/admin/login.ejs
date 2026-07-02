@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+
+<div class="login-wrap form-card">
+  <h1>Admin Login</h1>
+  <% if (error) { %><div class="error-text"><%= error %></div><% } %>
+  <form method="post" action="/admin/login">
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required autofocus />
+    </div>
+    <button type="submit" style="margin-top:10px;">Log In</button>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

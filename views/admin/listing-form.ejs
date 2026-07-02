@@ -1,0 +1,59 @@
+<%- include('../partials/header') %>
+
+<h1><%= listing ? 'Edit Listing' : 'Add Listing' %></h1>
+
+<form class="form-card" method="post" action="/admin/listings">
+  <% if (listing) { %><input type="hidden" name="id" value="<%= listing.id %>" /><% } %>
+  <div class="form-grid">
+    <div class="form-field full">
+      <label for="companyId">Company</label>
+      <select id="companyId" name="companyId" required>
+        <% companies.forEach(c => { %>
+          <option value="<%= c.id %>" <%= listing && listing.companyId === c.id ? 'selected' : '' %>><%= c.name %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="category">Category</label>
+      <input type="text" id="category" name="category" value="<%= listing ? listing.category : '' %>" required />
+    </div>
+    <div class="form-field">
+      <label for="species">Species / Product</label>
+      <input type="text" id="species" name="species" value="<%= listing ? listing.species : '' %>" required />
+    </div>
+    <div class="form-field">
+      <label for="dimensions">Dimensions</label>
+      <input type="text" id="dimensions" name="dimensions" value="<%= listing ? listing.dimensions : '' %>" />
+    </div>
+    <div class="form-field">
+      <label for="quantity">Quantity</label>
+      <input type="text" id="quantity" name="quantity" value="<%= listing ? listing.quantity : '' %>" />
+    </div>
+    <div class="form-field">
+      <label for="unit">Unit</label>
+      <input type="text" id="unit" name="unit" placeholder="boards, sheets, etc." value="<%= listing ? listing.unit : '' %>" />
+    </div>
+    <div class="form-field">
+      <label for="price">Price</label>
+      <input type="text" id="price" name="price" placeholder="$3.25/board" value="<%= listing ? listing.price : '' %>" />
+    </div>
+    <div class="form-field full">
+      <label for="discountNotes">Discount / notes</label>
+      <textarea id="discountNotes" name="discountNotes" rows="2"><%= listing ? listing.discountNotes : '' %></textarea>
+    </div>
+    <div class="form-field">
+      <label for="photoUrl">Photo URL (optional)</label>
+      <input type="text" id="photoUrl" name="photoUrl" value="<%= listing ? listing.photoUrl : '' %>" />
+    </div>
+    <div class="form-field">
+      <label for="expiresOn">Expires on</label>
+      <input type="date" id="expiresOn" name="expiresOn" value="<%= listing ? listing.expiresOn : '' %>" />
+    </div>
+  </div>
+  <div style="margin-top:14px;">
+    <button type="submit">Save Listing</button>
+    <a class="btn secondary" href="/admin">Cancel</a>
+  </div>
+</form>
+
+<%- include('../partials/footer') %>

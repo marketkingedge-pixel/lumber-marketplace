@@ -1,0 +1,108 @@
+<%- include('../partials/header') %>
+
+<div class="top-bar">
+  <h1>Admin Dashboard</h1>
+  <form method="post" action="/admin/logout"><button type="submit" class="btn secondary">Log Out</button></form>
+</div>
+
+<div class="dashboard-section">
+  <div class="top-bar">
+    <h2 style="margin:0;">Listings</h2>
+    <a class="btn" href="/admin/listings/new">+ Add Listing</a>
+  </div>
+  <table class="dashboard-table">
+    <thead>
+      <tr><th>Species / Category</th><th>Company</th><th>Qty</th><th>Price</th><th>Status</th><th>Expires</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <% listings.forEach(l => { %>
+        <tr>
+          <td><%= l.species %><br/><span class="helper-text"><%= l.category %></span></td>
+          <td><%= l.company ? l.company.name : '—' %></td>
+          <td><%= l.quantity %> <%= l.unit %></td>
+          <td><%= l.price %></td>
+          <td><span class="badge <%= l.status %>"><%= l.status %></span></td>
+          <td><%= l.expiresOn || '—' %></td>
+          <td>
+            <div class="row-actions">
+              <a class="btn btn-small secondary" href="/admin/listings/<%= l.id %>/edit">Edit</a>
+              <% if (l.status === 'active') { %>
+                <form action="/admin/listings/<%= l.id %>/status" method="post">
+                  <input type="hidden" name="status" value="sold" />
+                  <button class="btn btn-small secondary" type="submit">Mark Sold</button>
+                </form>
+              <% } %>
+              <form action="/admin/listings/<%= l.id %>/delete" method="post" onsubmit="return confirm('Delete this listing?');">
+                <button class="btn btn-small danger" type="submit">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="dashboard-section">
+  <div class="top-bar">
+    <h2 style="margin:0;">Companies</h2>
+    <a class="btn" href="/admin/companies/new">+ Add Company</a>
+  </div>
+  <table class="dashboard-table">
+    <thead>
+      <tr><th>Name</th><th>Location</th><th>Phone</th><th>Email</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <% companies.forEach(c => { %>
+        <tr>
+          <td><%= c.name %></td>
+          <td><%= c.location %></td>
+          <td><%= c.phone %></td>
+          <td><%= c.email %></td>
+          <td>
+            <div class="row-actions">
+              <a class="btn btn-small secondary" href="/admin/companies/<%= c.id %>/edit">Edit</a>
+              <form action="/admin/companies/<%= c.id %>/delete" method="post" onsubmit="return confirm('Delete this company?');">
+                <button class="btn btn-small danger" type="submit">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="dashboard-section">
+  <h2>Material Requests</h2>
+  <table class="dashboard-table">
+    <thead>
+      <tr><th>Material</th><th>Requester</th><th>Status</th><th>Posted</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <% requests.forEach(r => { %>
+        <tr>
+          <td><%= r.materialNeeded %><% if (r.source === 'scanner') { %> <span class="badge fallback">from scanner</span><% } %></td>
+          <td><%= r.requesterName %> (<%= r.contact %>)</td>
+          <td><span class="badge <%= r.status %>"><%= r.status %></span></td>
+          <td><%= r.datePosted %></td>
+          <td>
+            <div class="row-actions">
+              <% if (r.status === 'open') { %>
+                <form action="/admin/requests/<%= r.id %>/status" method="post">
+                  <input type="hidden" name="status" value="fulfilled" />
+                  <button class="btn btn-small secondary" type="submit">Mark Fulfilled</button>
+                </form>
+              <% } %>
+              <form action="/admin/requests/<%= r.id %>/delete" method="post" onsubmit="return confirm('Delete this request?');">
+                <button class="btn btn-small danger" type="submit">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

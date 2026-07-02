@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+
+<div class="top-bar">
+  <div>
+    <h1>Material Request Board</h1>
+    <p class="page-intro" style="margin-bottom:0;">Post what you're looking for and local companies can reach out directly. Ran the <a href="/scanner">Project Scanner</a>? You can post its estimate here too.</p>
+  </div>
+  <% if (!showForm) { %><a class="btn" href="/requests/new">+ Post a Request</a><% } %>
+</div>
+
+<% if (showForm) { %>
+  <div class="form-card" style="margin-bottom:32px;">
+    <h2 style="margin-top:0;">Post a Request</h2>
+    <form method="post" action="/requests">
+      <div class="form-grid">
+        <div class="form-field full">
+          <label for="requesterName">Your name</label>
+          <input type="text" id="requesterName" name="requesterName" required />
+        </div>
+        <div class="form-field full">
+          <label for="contact">Phone or email</label>
+          <input type="text" id="contact" name="contact" required />
+        </div>
+        <div class="form-field full">
+          <label for="materialNeeded">Material needed</label>
+          <input type="text" id="materialNeeded" name="materialNeeded" value="<%= prefill && prefill.materialNeeded ? prefill.materialNeeded : '' %>" required />
+        </div>
+        <div class="form-field full">
+          <label for="specs">Specs / details</label>
+          <textarea id="specs" name="specs" rows="3"><%= prefill && prefill.specs ? prefill.specs : '' %></textarea>
+        </div>
+        <div class="form-field">
+          <label for="quantity">Quantity</label>
+          <input type="text" id="quantity" name="quantity" value="<%= prefill && prefill.quantity ? prefill.quantity : '' %>" />
+        </div>
+        <div class="form-field">
+          <label for="deadline">Needed by</label>
+          <input type="date" id="deadline" name="deadline" />
+        </div>
+        <% if (prefill && prefill.photoUrl) { %>
+          <input type="hidden" name="photoUrl" value="<%= prefill.photoUrl %>" />
+          <div class="form-field full">
+            <label>Attached photo (from Project Scanner)</label>
+            <img src="<%= prefill.photoUrl %>" alt="Project photo" style="max-width:200px;border-radius:8px;border:1px solid #e0d6c8;" />
+          </div>
+        <% } %>
+      </div>
+      <div style="margin-top:12px;">
+        <button type="submit">Post Request</button>
+        <a class="btn secondary" href="/requests">Cancel</a>
+      </div>
+    </form>
+  </div>
+<% } %>
+
+<h2>Open Requests</h2>
+<% if (open.length === 0) { %>
+  <div class="empty-state">No open requests right now.</div>
+<% } else { %>
+  <div class="request-list">
+    <% open.forEach(r => { %>
+      <div class="request-item">
+        <% if (r.photoUrl) { %><img class="thumb" src="<%= r.photoUrl %>" alt="Project photo" /><% } %>
+        <div class="details">
+          <span class="badge open">Open</span>
+          <h3 style="margin:6px 0 4px;"><%= r.materialNeeded %></h3>
+          <div class="meta"><%= r.specs %></div>
+          <div class="meta">Quantity: <%= r.quantity || 'not specified' %> · Needed by: <%= r.deadline || 'flexible' %></div>
+          <div class="meta">Posted by <%= r.requesterName %> (<%= r.contact %>) on <%= r.datePosted %></div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<h2 style="margin-top:32px;">Fulfilled</h2>
+<% if (fulfilled.length === 0) { %>
+  <div class="empty-state">Nothing fulfilled yet.</div>
+<% } else { %>
+  <div class="request-list">
+    <% fulfilled.forEach(r => { %>
+      <div class="request-item">
+        <div class="details">
+          <span class="badge fulfilled">Fulfilled</span>
+          <h3 style="margin:6px 0 4px;"><%= r.materialNeeded %></h3>
+          <div class="meta"><%= r.notes %></div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>

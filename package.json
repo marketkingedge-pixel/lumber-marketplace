@@ -1,0 +1,17 @@
+{
+  "name": "local-lumber-marketplace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prototype marketplace for local lumber companies to post specials and for buyers to request material or scan a project for a materials/cost estimate.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "multer": "^2.0.0"
+  }
+}

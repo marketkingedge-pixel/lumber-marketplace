@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+
+<div class="scan-hero">
+  <h1>📷 Project Scanner</h1>
+  <p>Take or upload a photo of the area you're working on, add a couple of details, and get a rough materials list and cost estimate — then post it straight to the Request Board for local companies to quote.</p>
+  <% if (!aiEnabled) { %>
+    <p style="font-size:0.85rem;">⚠ Running in rule-of-thumb mode (no AI vision key configured). Estimates use your entered dimensions, not the photo content. Add <code>ANTHROPIC_API_KEY</code> to <code>.env</code> to enable real AI photo analysis.</p>
+  <% } %>
+</div>
+
+<% if (error) { %><div class="error-text"><%= error %></div><% } %>
+
+<form class="form-card" method="post" action="/scanner" enctype="multipart/form-data">
+  <div class="form-grid">
+    <div class="form-field full">
+      <label for="photo">Photo of the area</label>
+      <input type="file" id="photo" name="photo" accept="image/*" capture="environment" required />
+    </div>
+    <div class="form-field full">
+      <label for="projectType">Project type</label>
+      <select id="projectType" name="projectType" required>
+        <option value="deck">Deck</option>
+        <option value="fence">Fence</option>
+        <option value="shed">Shed</option>
+        <option value="retaining-wall">Retaining wall</option>
+        <option value="other">Other / not sure</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="length">Approx. length (ft)</label>
+      <input type="number" step="0.1" id="length" name="length" placeholder="e.g. 16" required />
+    </div>
+    <div class="form-field">
+      <label for="width">Approx. width (ft)</label>
+      <input type="number" step="0.1" id="width" name="width" placeholder="e.g. 10" required />
+    </div>
+    <div class="form-field full">
+      <label for="notes">Anything else worth knowing?</label>
+      <textarea id="notes" name="notes" rows="3" placeholder="e.g. existing structure is rotted, need to match cedar tone, sloped yard..."></textarea>
+    </div>
+  </div>
+  <div style="margin-top:12px;">
+    <button type="submit">Scan & Estimate</button>
+  </div>
+  <p class="helper-text" style="margin-top:10px;">Estimates are a starting point, not a firm quote. Confirm exact quantities and pricing with a local company before buying.</p>
+</form>
+
+<%- include('partials/footer') %>

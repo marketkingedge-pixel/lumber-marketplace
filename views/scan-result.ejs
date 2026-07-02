@@ -1,0 +1,67 @@
+
+<%
+  const materialSummary = result.materials.map(m => `${m.quantity} ${m.unit} of ${m.item}`).join('; ');
+  const specsSummary = `Project Scanner estimate for a ${result.project_type} (~${result.estimated_area_sq_ft} sq ft). ${result.confidence_note}`;
+  const params = new URLSearchParams({
+    materialNeeded: materialSummary.slice(0, 300),
+    specs: specsSummary,
+    quantity: `${result.materials.length} line items`,
+    photoUrl: photoUrl,
+  }).toString();
+%>
+<%- include('partials/header') %>
+
+<div class="top-bar">
+  <h1>Your Project Estimate</h1>
+  <span class="badge <%= result.engine === 'ai' ? 'ai' : 'fallback' %>"><%= result.engine === 'ai' ? 'AI Photo Analysis' : 'Rule-of-Thumb Estimate' %></span>
+</div>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px;">
+  <img src="<%= photoUrl %>" alt="Uploaded project photo" style="max-width:280px; border-radius:10px; border:1px solid #e0d6c8;" />
+  <div style="flex:1; min-width:240px;">
+    <h2 style="margin-top:0;"><%= result.project_type %></h2>
+    <p class="meta">Estimated area: ~<%= result.estimated_area_sq_ft %> sq ft</p>
+    <p class="helper-text"><%= result.confidence_note %></p>
+  </div>
+</div>
+
+<div class="cost-banner">
+  <div>
+    <div class="meta">Estimated total cost (materials + labor)</div>
+    <div class="amount">$<%= result.cost_range.low.toLocaleString() %> – $<%= result.cost_range.high.toLocaleString() %></div>
+  </div>
+  <div>
+    <div class="meta">Estimated labor</div>
+    <div><%= result.labor_estimate.hours %> hrs @ $<%= result.labor_estimate.rate_per_hour %>/hr</div>
+  </div>
+</div>
+
+<h2>Materials List</h2>
+<table class="result-table">
+  <thead>
+    <tr><th>Item</th><th>Quantity</th><th>Unit</th><th>Est. Unit Price</th><th>Est. Line Total</th></tr>
+  </thead>
+  <tbody>
+    <% result.materials.forEach(m => { %>
+      <tr>
+        <td><%= m.item %></td>
+        <td><%= m.quantity %></td>
+        <td><%= m.unit %></td>
+        <td>$<%= m.est_unit_price %></td>
+        <td>$<%= m.est_line_total.toLocaleString() %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<h2>Assumptions</h2>
+<ul class="assumptions">
+  <% result.assumptions.forEach(a => { %><li><%= a %></li><% }) %>
+</ul>
+
+<div style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap;">
+  <a class="btn" href="/requests/new?<%= params %>">Post This to the Request Board →</a>
+  <a class="btn secondary" href="/scanner">Scan Another Area</a>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,135 @@
+{
+  "companies": [
+    {
+      "id": "c1",
+      "name": "Riverbend Lumber Co.",
+      "phone": "(555) 201-4488",
+      "email": "sales@riverbendlumber.example",
+      "location": "Riverbend, OH",
+      "notes": ""
+    },
+    {
+      "id": "c2",
+      "name": "Cedar Creek Building Supply",
+      "phone": "(555) 340-1122",
+      "email": "orders@cedarcreeksupply.example",
+      "location": "Cedar Creek, OH",
+      "notes": ""
+    },
+    {
+      "id": "c3",
+      "name": "Hillside Timber & Millwork",
+      "phone": "(555) 588-7790",
+      "email": "info@hillsidetimber.example",
+      "location": "Hillside, OH",
+      "notes": ""
+    }
+  ],
+  "listings": [
+    {
+      "id": "l1",
+      "companyId": "c1",
+      "category": "Dimensional Lumber",
+      "species": "SPF 2x4",
+      "dimensions": "2x4x8",
+      "quantity": 300,
+      "unit": "boards",
+      "price": "$3.25/board",
+      "discountNotes": "Overstock from a cancelled order — 20% below list, must move by end of month.",
+      "photoUrl": "",
+      "status": "active",
+      "datePosted": "2026-06-24",
+      "expiresOn": "2026-07-15"
+    },
+    {
+      "id": "l2",
+      "companyId": "c2",
+      "category": "Decking",
+      "species": "Pressure-Treated 5/4x6",
+      "dimensions": "5/4x6x12",
+      "quantity": 150,
+      "unit": "boards",
+      "price": "$9.50/board",
+      "discountNotes": "Clearance on last season's stock.",
+      "photoUrl": "",
+      "status": "active",
+      "datePosted": "2026-06-27",
+      "expiresOn": "2026-07-20"
+    },
+    {
+      "id": "l3",
+      "companyId": "c3",
+      "category": "Plywood",
+      "species": "3/4\" CDX",
+      "dimensions": "4x8 sheet",
+      "quantity": 80,
+      "unit": "sheets",
+      "price": "$38.00/sheet",
+      "discountNotes": "Slightly weathered edges, structurally sound. 15% off.",
+      "photoUrl": "",
+      "status": "active",
+      "datePosted": "2026-06-29",
+      "expiresOn": "2026-07-10"
+    },
+    {
+      "id": "l4",
+      "companyId": "c1",
+      "category": "Trim",
+      "species": "Primed Pine 1x4",
+      "dimensions": "1x4x16",
+      "quantity": 200,
+      "unit": "boards",
+      "price": "$6.10/board",
+      "discountNotes": "Discontinued profile, priced to clear.",
+      "photoUrl": "",
+      "status": "active",
+      "datePosted": "2026-06-20",
+      "expiresOn": "2026-07-05"
+    },
+    {
+      "id": "l5",
+      "companyId": "c2",
+      "category": "Fencing",
+      "species": "Cedar Picket",
+      "dimensions": "1x6x6",
+      "quantity": 500,
+      "unit": "pickets",
+      "price": "$4.75/picket",
+      "discountNotes": "Bulk lot from a cancelled fence job — great price on a full run.",
+      "photoUrl": "",
+      "status": "active",
+      "datePosted": "2026-06-30",
+      "expiresOn": "2026-07-25"
+    }
+  ],
+  "requests": [
+    {
+      "id": "r1",
+      "requesterName": "Justin",
+      "contact": "marketkingedge@gmail.com",
+      "materialNeeded": "Pressure-treated 2x8x12 joists",
+      "specs": "Need straight, structural-grade boards for a deck rebuild.",
+      "quantity": "20 boards",
+      "deadline": "2026-07-10",
+      "status": "open",
+      "datePosted": "2026-06-28",
+      "notes": "",
+      "photoUrl": "",
+      "source": "manual"
+    },
+    {
+      "id": "r2",
+      "requesterName": "Dana R.",
+      "contact": "(555) 902-3311",
+      "materialNeeded": "Cedar fence pickets",
+      "specs": "Matching an existing 6ft privacy fence.",
+      "quantity": "~150 pickets",
+      "deadline": "2026-07-18",
+      "status": "fulfilled",
+      "datePosted": "2026-06-15",
+      "notes": "Filled by Cedar Creek Building Supply.",
+      "photoUrl": "",
+      "source": "manual"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+
+<h1>Browse Specials & Clearance</h1>
+<p class="page-intro">Current specials, overstock, and close-outs from participating local lumber companies. Filter below, or check the <a href="/requests">Request Board</a> if you don't see what you need.</p>
+
+<form class="filter-bar" method="get" action="/">
+  <div class="field">
+    <label for="q">Search</label>
+    <input type="text" id="q" name="q" placeholder="e.g. cedar, plywood" value="<%= filters.q %>" />
+  </div>
+  <div class="field">
+    <label for="category">Category</label>
+    <select id="category" name="category">
+      <option value="">All categories</option>
+      <% categories.forEach(c => { %>
+        <option value="<%= c %>" <%= filters.category === c ? 'selected' : '' %>><%= c %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label for="company">Company</label>
+    <select id="company" name="company">
+      <option value="">All companies</option>
+      <% companies.forEach(c => { %>
+        <option value="<%= c.id %>" <%= filters.company === c.id ? 'selected' : '' %>><%= c.name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <button type="submit">Apply Filters</button>
+  </div>
+  <% if (filters.q || filters.category || filters.company) { %>
+    <div class="field"><a class="btn secondary" href="/">Clear</a></div>
+  <% } %>
+</form>
+
+<% if (listings.length === 0) { %>
+  <div class="empty-state">No specials match those filters right now. Try clearing them, or <a href="/requests/new">post a material request</a> instead.</div>
+<% } else { %>
+  <div class="card-grid">
+    <% listings.forEach(l => { %>
+      <div class="card">
+        <span class="badge active">Active</span>
+        <h3><%= l.species %> — <%= l.category %></h3>
+        <div class="company-name"><%= l.company ? l.company.name : 'Unknown company' %></div>
+        <div class="meta"><%= l.dimensions %> · <%= l.quantity %> <%= l.unit %> available</div>
+        <div class="price"><%= l.price %></div>
+        <% if (l.discountNotes) { %><div class="notes"><%= l.discountNotes %></div><% } %>
+        <div class="card-footer">
+          <span>Posted <%= l.datePosted %><% if (l.expiresOn) { %> · expires <%= l.expiresOn %><% } %></span>
+          <% if (l.company) { %><span><%= l.company.phone %></span><% } %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>
